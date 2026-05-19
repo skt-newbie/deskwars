@@ -5,13 +5,14 @@ import { fetchJson } from '../lib/api';
 import { Html5Qrcode } from 'html5-qrcode';
 
 export default function HiddenChaosPage() {
-  const [qrFlow, setQrFlow] = useState<{ 
+  const [qrFlow, setQrFlow] = useState<{
     qrId: string;
     type: 'riddle' | 'mystery';
     status: 'active' | 'failed' | 'completed' | 'path_a_selection';
     riddle?: string;
     attempts?: number;
     nextClue?: string;
+    nextLocation?: string;
     points?: number;
     prize?: string;
     isCorrect?: boolean;
@@ -130,7 +131,18 @@ export default function HiddenChaosPage() {
       });
 
       if (data.type === 'riddle') {
-        setQrFlow({ qrId, ...data });
+        setQrFlow({
+          qrId,
+          type: 'riddle',
+          status: data.status,
+          riddle: data.riddle,
+          attempts: data.attempts,
+          nextClue: data.nextClue,
+          nextLocation: data.nextLocation,
+          points: data.points,
+          prize: data.prize,
+          isSolved: data.isSolved
+        });
       } else {
         setScanResult(data);
       }
@@ -344,7 +356,7 @@ export default function HiddenChaosPage() {
             )}
 
             {qrFlow.status === 'completed' && (
-              <motion.div 
+              <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 className="border-4 border-chaos-green p-12 text-center bg-zinc-950 relative"
@@ -360,20 +372,23 @@ export default function HiddenChaosPage() {
                 <div className="grid grid-cols-2 gap-4 mb-12">
                    <div className="p-6 bg-zinc-900 border-2 border-zinc-800">
                       <p className="text-[10px] font-mono text-zinc-500 uppercase mb-1">Points Earned</p>
-                      <p className="text-3xl font-black italic text-chaos-green">+{qrFlow.points}</p>
+                      <p className="text-3xl font-black italic text-chaos-green">+{qrFlow.points || 0}</p>
                    </div>
                    <div className="p-6 bg-zinc-900 border-2 border-zinc-800">
                       <p className="text-[10px] font-mono text-zinc-500 uppercase mb-1">Items Claimed</p>
-                      <p className="text-xl font-black italic text-white uppercase truncate">{qrFlow.prize || 'NONE'}</p>
+                      <p className="text-xl font-black italic text-white uppercase break-words line-clamp-2">{qrFlow.prize || 'NONE'}</p>
                    </div>
                 </div>
 
-                {qrFlow.nextClue && (
+                {(qrFlow.nextClue || qrFlow.nextLocation) && (
                   <div className="p-8 border-2 border-dashed border-chaos-yellow/30 bg-chaos-yellow/5 text-left mb-10">
                     <p className="text-[10px] font-mono text-chaos-yellow uppercase tracking-widest mb-4 flex items-center gap-2">
                        <HelpCircle className="w-3 h-3" /> Next Destination
                     </p>
-                    <p className="text-xl font-bold italic text-chaos-yellow leading-tight">"{qrFlow.nextClue}"</p>
+                    <p className="text-xl font-bold italic text-chaos-yellow leading-tight">"{qrFlow.nextClue || qrFlow.nextLocation}"</p>
+                    {qrFlow.nextLocation && qrFlow.nextClue && (
+                      <p className="text-sm font-mono text-chaos-yellow/70 mt-2">Location: {qrFlow.nextLocation}</p>
+                    )}
                   </div>
                 )}
 
