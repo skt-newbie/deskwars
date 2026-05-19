@@ -1,0 +1,10 @@
+{
+  "name": "Chaos Carnival",
+  "description": "An interactive chaotic event hub featuring AI roast arenas, hidden QR treasures, and temporal precision games.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

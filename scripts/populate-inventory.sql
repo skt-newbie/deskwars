@@ -1,0 +1,72 @@
+-- Clear existing inventory
+DELETE FROM inventory;
+
+-- Insert all inventory items with total quantities
+INSERT INTO inventory (id, name, quantity, digital_fallback_points) VALUES
+('MND-001', 'Ant Esports Wolf Mouse Pad', 1, 104),
+('MND-002', 'Portronics Toad 8 Transparent Wireless Bluetooth Mouse', 2, 612),
+('MND-003', 'Tygot Bluetooth Selfie Stick Tripod', 1, 256),
+('MND-004', 'Portronics Toad 23 Wireless Mouse', 1, 269),
+('MND-005', 'Portronics Swipe 2 Screen Cleaner', 1, 119),
+('MND-006', 'Portronics Bubble 3.0 Wireless Keyboard', 1, 899),
+('MND-007', 'Lapster 5-in-1 Cleaning Kit', 1, 99),
+('MND-008', 'pTron Fusion Tunes Bluetooth Speaker', 1, 760),
+('MND-009', 'THEMISTO Precision Screwdriver Set', 1, 255),
+('MND-010', 'Zebronics Transformer Gaming Mouse', 1, 549),
+('MND-011', 'GZRC Thug Life Party Sunglasses', 2, 47),
+('MND-012', 'KiKiluxxa Glass Travel Sipper Mug', 1, 279),
+('MND-013', 'Ambrane 60W Type-C Cable', 1, 141),
+('MND-014', 'Portronics Snapcase 2 Cable Kit', 1, 449),
+('MND-015', 'Ambrane MagSafe 10000mAh Power Bank', 1, 1299),
+('MND-016', 'Toy Imagine Kids Digital Camera', 1, 550),
+('MND-017', 'Storio Rechargeable Retro Game Console', 1, 551),
+('MND-018', 'Blaze Storm Soft Bullet Gun Toy', 1, 174),
+('MND-019', 'Ant Esports MK3400 Mechanical Keyboard', 1, 1329),
+('MND-020', 'Ant Esports GP300 Gaming Controller', 1, 1329),
+('MND-021', 'Portronics Snapcase 3 Cable Kit', 1, 245),
+('MND-022', 'Fitness Mantra Sports Socks', 12, 16),
+('MND-023', 'Seagull Gadget Organizer Case', 1, 399),
+('MND-024', 'Gizga Pro 3-in-1 Cleaning Kit', 3, 125),
+('MND-025', 'DesiDiya DIY Infinity Mirror Tulip Cube LED Lamp', 1, 209),
+('MND-026', 'Billebon Premium Neck Pillow (Black)', 3, 223),
+('MND-027', 'Iris Lavender Fragrance Ceramic Vaporizer Set', 3, 249),
+('MND-028', 'EKAM Reed Diffuser Gift Set', 3, 249),
+('MND-029', 'Real Fruit Power Mixed Fruit Juice', 1, 18),
+('MND-030', 'Bingo Tedhe Medhe Masala Tadka', 1, 16),
+('MND-031', '7UP Nimbooz with Lemon Juice', 1, 25),
+('MND-032', 'Kurkure Puffcorn Cheese Snacks', 1, 20),
+('MND-033', 'Harpic Drain Xpert Cleaning Powder', 2, 32),
+('MND-034', 'Doritos Nachos Sweet Chilli', 1, 36),
+('MND-035', 'Lay''s Chile Limon Chips', 1, 25),
+('MND-036', 'ACT II Classic Salted Popcorn', 1, 10),
+('MND-037', 'Colgate Sensitive Toothbrush', 1, 56),
+('MND-038', 'Paper Boat Mixed Berries Drink', 1, 39),
+('MND-039', 'Lay''s Magic Masala Chips', 1, 36),
+('MND-040', 'Bingo Chilli Sprinkled Chips', 1, 19),
+('MND-041', 'Bingo Mad Angles Achaari Masti', 1, 19),
+('MND-042', 'ACT II Golden Sizzle Popcorn', 1, 10),
+('MND-043', 'Billebon Premium Neck Pillow (Grey)', 1, 223),
+('MND-044', 'Lay''s Sizzling Hot Chips', 1, 20),
+('MND-045', 'Paper Boat Aam Panna Drink', 2, 36),
+('MND-046', 'ACT II Tomato Chilli Popcorn', 1, 26),
+('MND-047', 'Cheetos Masala Balls', 1, 31),
+('MND-048', 'Tropicana Pomegranate Delight Juice', 2, 30),
+('MND-049', 'DesiDiya Universe Crystal Ball LED Lamp', 3, 179),
+('MND-050', 'Clean Champ Flush Matic Pouch', 2, 90),
+('MND-051', 'Paper Boat Lychee Drink', 2, 39),
+('MND-052', 'Paper Boat Mango Drink', 1, 39),
+('MND-053', 'Sensodyne Sensitive Toothbrush', 3, 65),
+('MND-054', 'Quace Crystal Rain Drop String Light', 1, 199),
+('MND-055', 'Shri Samriddhi Toilet Cleaner Brush', 2, 59),
+('MND-056', 'ACT II Butter Delite Popcorn', 3, 35),
+('MND-057', 'Oral-B Pro Clean Sensitive Toothbrush', 6, 50),
+('MND-058', 'Lay''s West Indies Hot ''n'' Sweet Chilli Chips', 1, 25),
+('MND-059', 'SaleOn Tech Pouch Organizer', 1, 298);
+
+-- Display summary
+SELECT 
+    COUNT(*) as total_items,
+    SUM(quantity) as total_quantity
+FROM inventory;
+
+-- Made with Bob

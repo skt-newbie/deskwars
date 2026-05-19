@@ -1,0 +1,147 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id               String              @id @default(uuid())
+  username         String              @unique
+  email            String?             @unique
+  totalPoints      Int                 @default(0) @map("total_points")
+  deskPoints       Int                 @default(0) @map("desk_points")
+  drawingPoints    Int                 @default(0) @map("drawing_points")
+  qrHuntStep       Int                 @default(1) @map("qr_hunt_step")
+  isAdmin          Boolean             @default(false) @map("is_admin")
+  lastActivity     DateTime?           @map("last_activity")
+  createdAt        DateTime            @default(now()) @map("created_at")
+  qrScans          QrScan[]
+  qrRiddleAttempts QrRiddleAttempt[]
+  submissions      Submission[]
+  prizeClaims      PrizeClaim[]
+
+  @@map("users")
+}
+
+model Submission {
+  id               String   @id @default(uuid())
+  userId           String   @map("user_id")
+  imagePath        String   @map("image_path")
+  overallScore     Int?     @map("overall_score")
+  aiComment        String?  @map("ai_comment")
+  categoriesJson   String?  @map("categories_json")
+  aiType           String   @default("desk") @map("ai_type")
+  submissionMode   String   @default("final") @map("submission_mode")
+  processingStatus String   @default("pending") @map("processing_status")
+  createdAt        DateTime @default(now()) @map("created_at")
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("submissions")
+}
+
+model QrScan {
+  id           String   @id @default(uuid())
+  userId       String   @map("user_id")
+  qrId         String   @map("qr_id")
+  points       Int      @default(0)
+  prizeClaimed String?  @map("prize_claimed")
+  scannedAt    DateTime @default(now()) @map("scanned_at")
+  user         User     @relation(fields: [userId], references: [id])
+
+  @@map("future_qr_scans")
+}
+
+model QrDefinition {
+  qrId              String  @id @map("qr_id")
+  location          String
+  riddle            String
+  answer            String
+  nextClue          String  @map("next_clue")
+  nextQrId          String? @map("next_qr_id")
+  nextQrLocation    String? @map("next_qr_location")
+  guaranteedPrizeId String? @map("guaranteed_prize_id")
+
+  @@map("qr_definitions")
+}
+
+model QrRiddleAttempt {
+  id       String  @id @default(uuid())
+  userId   String  @map("user_id")
+  qrId     String  @map("qr_id")
+  attempts Int     @default(0)
+  isSolved Boolean @default(false) @map("is_solved")
+  user     User    @relation(fields: [userId], references: [id])
+
+  @@map("qr_riddle_attempts")
+}
+
+model GameConfig {
+  gameId    String  @id @map("game_id")
+  isEnabled Boolean @default(true) @map("is_enabled")
+
+  @@map("game_configs")
+}
+
+model Inventory {
+  id                    String              @id
+  name                  String
+  quantity              Int
+  digitalFallbackPoints Int                 @map("digital_fallback_points")
+  gameAllocations       GameAllocation[]
+  prizeClaims           PrizeClaim[]
+
+  @@map("inventory")
+}
+
+model GameAllocation {
+  id           String    @id @default(uuid())
+  allocationId String    @unique @map("allocation_id")
+  gameCode     String    @map("game_code")
+  gameName     String    @map("game_name")
+  category     String
+  rewardType   String    @map("reward_type")
+  inventoryId  String    @map("inventory_id")
+  inventory    Inventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+
+  @@map("game_allocations")
+}
+
+model MysteryNode {
+  id         String @id
+  points     Int
+  rewardText String @map("reward_text")
+
+  @@map("mystery_nodes")
+}
+
+model UserMysteryClaim {
+  id     String @id @default(uuid())
+  userId String @map("user_id")
+  nodeId String @map("node_id")
+
+  @@map("user_mystery_claims")
+}
+
+model TickBoomSession {
+  id         String    @id @default(uuid())
+  userId     String    @unique @map("user_id")
+  attempts   Int       @default(0)
+  lastPlayed DateTime? @map("last_played")
+
+  @@map("tick_boom_sessions")
+}
+
+model PrizeClaim {
+  id           String    @id @default(uuid())
+  userId       String    @map("user_id")
+  inventoryId  String    @map("inventory_id")
+  allocationId String?   @map("allocation_id")
+  claimType    String    @map("claim_type")
+  claimedAt    DateTime  @default(now()) @map("claimed_at")
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  inventory    Inventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+
+  @@map("prize_claims")
+}
