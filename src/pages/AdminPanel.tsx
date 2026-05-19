@@ -185,8 +185,8 @@ export default function AdminPanel() {
                    {data?.inventory.map((item) => (
                      <tr key={item.id} className="hover:bg-white/5">
                        <td className="p-4 font-bold uppercase">{item.name}</td>
-                       <td className={`p-4 font-black ${item.quantity <= 0 ? 'text-red-500' : 'text-chaos-yellow'}`}>
-                         {item.quantity} units
+                       <td className={`p-4 font-black ${(item.quantity ?? 0) <= 0 ? 'text-red-500' : 'text-chaos-yellow'}`}>
+                         {item.quantity ?? 0} units
                        </td>
                        <td className="p-4 text-zinc-500">+{item.digitalFallbackPoints} pts</td>
                        <td className="p-4 flex gap-2">
